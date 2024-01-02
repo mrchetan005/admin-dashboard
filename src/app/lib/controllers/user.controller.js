@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import bcryptjs from 'bcryptjs';
 import { signIn } from "@/auth";
 
-export const fetchUsers = async (q, page = 1, limit = 2) => {
+export const fetchUsers = async (q, page = 1, limit = process.env.ITEMS_PER_PAGE) => {
     try {
         connectDB();
         const regex = new RegExp(q, "gi");
@@ -87,9 +87,13 @@ export const deleteUser = async (formData) => {
 
 export const authenticate = async (prevState, formData) => {
     const { email, password } = Object.fromEntries(formData);
+
     try {
         await signIn("credentials", { email, password });
-    } catch (error) {
-        return "Wrong credentials!";
+    } catch (err) {
+        if (err.message.includes("CredentialsSignin")) {
+            return "Wrong Credentials";
+        }
+        throw err;
     }
-}
+};

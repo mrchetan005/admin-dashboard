@@ -9,14 +9,13 @@ const login = async ({ email, password }) => {
     try {
         connectDB();
         const user = await User.findOne({ email });
-        if (!user) {
+        if (!user || !user.isAdmin) {
             throw new Error('Wrong credentials!');
         }
         const isPasswordValid = await bcryptjs.compare(password, user.password);
         if (!isPasswordValid) {
             throw new Error('Wrong credentials!');
         }
-        console.log(user);
         return user;
     } catch (error) {
         console.log(error);
@@ -43,14 +42,14 @@ export const { signIn, signOut, auth } = NextAuth({
         async jwt({ token, user }) {
             if (user) {
                 token.username = user.username;
-                token.img = user.img;
+                token.avatar = user.avatar;
             }
             return token;
         },
         async session({ session, token }) {
             if (token) {
                 session.user.username = token.username;
-                session.user.img = token.img;
+                session.user.avatar = token.avatar;
             }
             return session;
         },

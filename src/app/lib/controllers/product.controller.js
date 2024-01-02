@@ -5,7 +5,7 @@ import { Product } from "../models/product.model";
 import { connectDB } from "../utils";
 import { redirect } from "next/navigation";
 
-export const fetchProducts = async (q, page = 1, limit = 2) => {
+export const fetchProducts = async (q, page = 1, limit = process.env.ITEMS_PER_PAGE) => {
     try {
         connectDB();
         const regex = new RegExp(q, "gi");
