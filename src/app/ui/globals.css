@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--bg: #151c2c;
+	--bgSoft: #182237;
+	--bgSofter: #2e374a;
+	--text: white;
+	--textSoft: #b7bac1;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 90%;
+}
+
+body {
+	background-color: var(--bg);
+	color: var(--text);
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+@layer components {
+	.input {
+		@apply p-5 w-[45%] bg-transparent text-text bg-bg border outline-none rounded-md border-[#2e374a] mb-7;
+	}
+	.submitBtn {
+		@apply w-full p-5 bg-teal-600 text-text border-none rounded-md;
+	}
+}
